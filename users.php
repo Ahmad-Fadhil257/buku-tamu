@@ -119,7 +119,7 @@ $kodeuser = $huruf . sprintf("%02s", $urutan);
 
       <div class="modal-body">
         <form method="post" action="">
-          <input type="hidden" name="id_user" id="id_user" value="<?php $kodeuser ?>">
+          <input type="hidden" name="id_user" id="id_user" value="<?= $kodeuser ?>">
           <div class="form-group row">
             <label for="username" class="col-sm-3 col-form-label">Username</label>
             <div class="col-sm-8">
