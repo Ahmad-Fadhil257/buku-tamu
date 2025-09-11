@@ -19,7 +19,7 @@ include_once('template/header.php')
   <?php
   // jika ada tombol simpan
   if (isset($_POST['simpan'])) {
-    if (tambah_tamu($_POST) > 0) {
+    if (tambah_user($_POST) > 0) {
   ?>
       <div class="alert alert-success" role="alert">
         Data berhasil disimpan!
@@ -38,7 +38,7 @@ include_once('template/header.php')
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">
-      <button type="button" class="btn btn-primary btn-icon-split" data-toggle="modal" 
+      <button type="button" class="btn btn-primary btn-icon-split" data-toggle="modal"
         data-target="#tambahModal">
         <span class="icon text-white-50">
           <i class="fas fa-plus"></i>
@@ -62,7 +62,7 @@ include_once('template/header.php')
             // penomoran auto-increment
             $no = 1;
 
-            // Query untuk memanggil semua data dari tabel buku_tamu
+            // Query untuk memanggil semua data dari tabel users
             $users = query("SELECT * FROM users");
             foreach ($users as $user) : ?>
               <tr>
@@ -70,9 +70,9 @@ include_once('template/header.php')
                 <td><?= $user['username'] ?></td>
                 <td><?= $user['user_role'] ?></td>
                 <td>
-                  <a class="btn btn-success" href="edit-tamu.php?id=<?= $user['id_user'] ?>">Ubah</a>
+                  <a class="btn btn-success" href="edit-user.php?id=<?= $user['id_user'] ?>">Ubah</a>
                   <a onclick="return confirm('Apakah anda yakin ingin menghapus data ini?')" class="btn btn-danger"
-                  href="hapus-tamu.php?id=<?= $user['id_user'] ?>">Hapus</a>
+                    href="hapus-user.php?id=<?= $user['id_user'] ?>">Hapus</a>
                 </td>
               </tr>
             <?php endforeach; ?>
@@ -86,21 +86,22 @@ include_once('template/header.php')
 
 <?php
 // mengambil data barang dari tabel dengan kode terbesar
-$query = mysqli_query($koneksi, "SELECT max(id_tamu) as kodeTerbesar FROM buku_tamu");
+$query = mysqli_query($koneksi, "SELECT max(id_user) as kodeTerbesar FROM users");
 $data = mysqli_fetch_array($query);
-$kodeTamu = $data['kodeTerbesar'];
+$kodeuser = $data['kodeTerbesar'];
 
 // mengambil angka dari kode barang terbesar, menggunakan fungsi substr dan diubah ke integer dengan (int)
-$urutan = (int) substr($kodeTamu, 2, 3);
+$urutan = (int) substr($kodeuser, 3, 2);
 
 // nomor yang diambil akan ditambah 1 untuk menentukan nomor urut berikutnya
 $urutan++;
 
 // membuat kode barang baru
 // string sprintf("%03s", $urutan); berfungsi untuk membuat string menjadi 3 karakter
+
 // angka yang diambil tadi digabungkan dengan kode huruf yang kita inginkan, misalnya zt
-$huruf = "zt";
-$kodeTamu = $huruf . sprintf("%03s", $urutan);
+$huruf = "usr";
+$kodeuser = $huruf . sprintf("%02s", $urutan);
 ?>
 
 
@@ -110,7 +111,7 @@ $kodeTamu = $huruf . sprintf("%03s", $urutan);
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5 class="modal-title" id="tambahModalLabel">Tambah Data Tamu</h5>
+        <h5 class="modal-title" id="tambahModalLabel">Tambah Data user</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -118,40 +119,26 @@ $kodeTamu = $huruf . sprintf("%03s", $urutan);
 
       <div class="modal-body">
         <form method="post" action="">
-          <input type="hidden" name="id_tamu" id="id_tamu" value="<?php echo $kodeTamu ?>">
-
+          <input type="hidden" name="id_user" id="id_user" value="<?php $kodeuser ?>">
           <div class="form-group row">
-            <label for="nama_tamu" class="col-sm-3 col-form-label">Nama Tamu</label>
+            <label for="username" class="col-sm-3 col-form-label">Username</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" id="nama_tamu" name="nama_tamu">
+              <input type="text" class="form-control" id="username" name="username">
             </div>
           </div>
-
           <div class="form-group row">
-            <label for="alamat" class="col-sm-3 col-form-label">Alamat</label>
+            <label for="password" class="col-sm-3 col-form-label">Password</label>
             <div class="col-sm-8">
-              <textarea class="form-control" id="alamat" name="alamat"></textarea>
+              <input type="password" class="form-control" id="password" name="password">
             </div>
           </div>
-
           <div class="form-group row">
-            <label for="no_hp" class="col-sm-3 col-form-label">No. Telepon</label>
+            <label for="user_role" class="col-sm-3 col-form-label">User Role</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" id="no_hp" name="no_hp">
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <label for="bertemu" class="col-sm-3 col-form-label">Bertemu dg.</label>
-            <div class="col-sm-8">
-              <input type="text" class="form-control" id="bertemu" name="bertemu">
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <label for="kepentingan" class="col-sm-3 col-form-label">Kepentingan</label>
-            <div class="col-sm-8">
-              <input type="text" class="form-control" id="kepentingan" name="kepentingan">
+              <select class="form-control" id="user_role" name="user_role">
+                <option value="admin">Administrator</option>
+                <option value="operator">Operator</option>
+              </select>
             </div>
           </div>
       </div>
