@@ -1,5 +1,7 @@
 <?php
-include_once('template/header.php')
+include_once('template/header.php');
+
+echo $_SESSION['role'];
 ?>
 
 <!-- Begin Page Content -->
@@ -7,7 +9,7 @@ include_once('template/header.php')
 
   <!-- Page Heading -->
   <h1 class="h3 mb-4 text-gray-800">Dashboard Admin</h1>
-
+  
 </div>
 <!-- /.container-fluid -->
 
