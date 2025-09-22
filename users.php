@@ -1,9 +1,28 @@
 <?php
 require_once('function.php');
 include_once('template/header.php');
+
+if ($_SESSION['role'] != 'admin') {
+  echo "<script>
+          alert('Anda tidak memiliki akses ke halaman ini!');
+          window.location.href = 'index.php';
+        </script>";
+  exit;
+}
 ?>
 
-
+<?php
+if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'):
+?>
+    <li class="nav-item">
+      <a href="users.php" class="nav-link">
+        <i class="fas fa-fw fa-users"></i>
+        <span>User</span>
+      </a>
+    </li>
+<?php
+endif;
+?>
 
 <!-- Custom styles for this page -->
 <link href="assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">

@@ -1,11 +1,27 @@
 <?php
 require_once('function.php');
 include_once('template/header.php');
+
+if ($_SESSION['role'] != 'operator') {
+  echo "<script>
+          alert('Anda tidak memiliki akses ke halaman ini!');
+          window.location.href = 'index.php';
+        </script>";
+  exit;
+}
+if (isset($_SESSION['role']) && $_SESSION['role'] == 'operator'):
+?>
+  <li class="nav-item">
+    <a href="buku-tamu.php" class="nav-link">
+      <i class="fas fa-fw fa-book-open"></i>
+      <span>Buku Tamu</span>
+    </a>
+  </li>
+<?php
+endif;
 ?>
 
-<?php
-include_once('template/header.php')
-?>
+
 
 <!-- Custom styles for this page -->
 <link href="assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -93,7 +109,7 @@ include_once('template/header.php')
                 <td>
                   <a class="btn btn-success" href="edit-tamu.php?id=<?= $tamu['id_tamu'] ?>">Ubah</a>
                   <a onclick="return confirm('Apakah anda yakin ingin menghapus data ini?')" class="btn btn-danger"
-                  href="hapus-tamu.php?id=<?= $tamu['id_tamu'] ?>">Hapus</a>
+                    href="hapus-tamu.php?id=<?= $tamu['id_tamu'] ?>">Hapus</a>
                 </td>
               </tr>
             <?php endforeach; ?>
