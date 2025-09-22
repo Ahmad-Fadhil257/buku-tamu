@@ -1,0 +1,17 @@
+{
+    "name": "asus/buku-tamu",
+    "autoload": {
+        "psr-4": {
+            "Asus\\BukuTamu\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ahmad-Fadhil257",
+            "email": "2zi009adf@gmail.com"
+        }
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "^5.1"
+    }
+}
